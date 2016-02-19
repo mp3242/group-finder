@@ -1,4 +1,4 @@
-# schedule-sharer
-Project Members:
+group-finder
+Group Members:
 Vamsi Gadiraju
-Michal Porubcin
+Hidy Han
