@@ -1,3 +1,0 @@
-# schedule-sharer
-
-Hidy Han
