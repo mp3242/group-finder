@@ -12,7 +12,14 @@ import models
 
 #homepage
 
-@app.route('/') 
+#May need to change requirements.txt!
+#remember you gotta type localhost:5000 !!!!
+
+#app.config.from_object(os.environ['APP_SETTINGS'])
+
+
+#homepage
+@app.route('/') #decorator= @app.route blablabla
 def hello():
     return render_template("hello.html")
 
