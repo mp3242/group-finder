@@ -3,14 +3,18 @@ import os.path
 
 from app import db
 
+
+association_table=db.Table("association",db.Model.metadata,db.Column('left_id',db.Integer,db.ForeignKey('left.id')),db.Column('right_id',db.Integer,db.ForeignKey('right.id')))
+
 class User(db.Model):
-    id=db.Column(db.Integer, primary_key=True)
+    __tablename__="left"
+    id=db.Column(db.Integer, primary_key=True,unique=True)
     name=db.Column(db.String(64))
-    password=db.Column(db.String)
-    email=db.Column(db.String)
+    password=db.Column(db.String(32))
+    email=db.Column(db.String(120),unique=True)
+    courses=db.relationship("Course",secondary=association_table,back_populates="users")
     #created=db.Column(db.DateTime,default=datetime.datetime.utcnow)
-    def __init__(self,id,name,password,email):
-        self.id=id
+    def __init__(self,name,password,email):
         self.name=name
         self.password=password
         self.email=email
@@ -19,3 +23,15 @@ class User(db.Model):
         return '<User %r>' % (self.name)
 #ex: how to make a post
 #db.session.add(User(name='Hidy',password='iwonttellyou',email='yh2635@columbia.edu'));db.session.commit()
+
+class Course(db.Model):
+    __tablename__='right'
+    id=db.Column(db.Integer, primary_key=True)
+    classname=db.Column(db.String(64))
+    users=db.relationship('User',secondary=association_table,back_populates="courses")
+    
+    def __init__(self,classname):
+        self.classname=classname
+
+    def __repr__(self):
+        return '<Call number: %r Class: %r>' % (self.id,self.classname)
