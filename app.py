@@ -1,5 +1,11 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, flash, redirect, session, url_for, request, g
 from flask.ext.sqlalchemy import SQLAlchemy
+from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
+from .forms import LoginForm
+from .models import User
+
+from flask.ext.openid import OpenID
+from config import basedir
 import requests
 from os.path import abspath, dirname, join
 
@@ -9,6 +15,24 @@ app.config.from_object('config')
 db=SQLAlchemy(app)
 
 import models
+
+##for login
+lm=LoginManager()
+lm.init_app(app)
+oid=OpenID(app,os.path.join(basedir,'tmp'))
+@lm.user_loader
+def load_user(id):
+    return User.query.get(int(id))
+@app.route('/login',methods=['GET','POST'])
+@oid.loginhandler
+def login():
+    if g.user is not None and g.user.is_authenticated:
+        return redirect(url_for('index'))
+    form=LoginForm()
+    if form.validate_on_submit():
+        session['remember me']=form.remember_me.data
+        return oid.try_login(form.openid.data, ask_for=['name','email'])
+    return render_template('login.html',title='Sign In', form=form, providers=app.config['OPENID_PROVIDERS'])
 
 #homepage
 
