@@ -1,23 +1,26 @@
 from flask import Flask, render_template
 from flask.ext.sqlalchemy import SQLAlchemy
 import requests
-import os
+from os.path import abspath, dirname, join
+
+app = Flask(__name__)
+app.config["DEBUG"] = True  # Only include this while you are testing your app
+app.config.from_object('config')
+db=SQLAlchemy(app)
+
+import models
+
+#homepage
 
 #May need to change requirements.txt!
 #remember you gotta type localhost:5000 !!!!
 
-app = Flask(__name__)
-app.config["DEBUG"] = True  # Only include this while you are testing your app
 #app.config.from_object(os.environ['APP_SETTINGS'])
-db = SQLAlchemy(app)
 
-#from models import Result
 
 #homepage
 @app.route('/') #decorator= @app.route blablabla
 def hello():
-    #return "<h1>changed</h1>"
-    #"Hello World!" #return HTML instead for webpages
     return render_template("hello.html")
 
 #website
