@@ -74,7 +74,7 @@ def addrec():
 
             with sqlite3.connect("app.db") as con:
                 cur = con.cursor()
-                cur.execute("INSERT INTO User (name,password,email) VALUES (?,?,?)",(name,password,email))
+                cur.execute("INSERT INTO left (name,password,email) VALUES (?,?,?)",(name,password,email))
             
                 con.commit()
                 msg = "Record successfully added"
