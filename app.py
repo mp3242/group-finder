@@ -2,6 +2,7 @@ from flask import Flask, render_template, request
 from flask.ext.sqlalchemy import SQLAlchemy
 import requests
 from os.path import abspath, dirname, join
+import sqlite3
 
 app = Flask(__name__)
 app.config["DEBUG"] = True  # Only include this while you are testing your app
@@ -9,6 +10,8 @@ app.config.from_object('config')
 db=SQLAlchemy(app)
 
 import models
+
+#source venv/bin/activate
 
 #homepage
 
@@ -39,17 +42,15 @@ def new_student():
 @app.route('/addrec',methods = ['POST', 'GET'])
 def addrec():
     if request.method == 'POST':
-        msg = ''
+        msg = "hello world"
         try:
             name = request.form['name']
             password = request.form['password']
             email = request.form['email']
-        
-            with sql.connect("app.db") as con:
+
+            with sqlite3.connect("app.db") as con:
                 cur = con.cursor()
-            
-                cur.execute("INSERT INTO students (name,password,email) \
-                        VALUES (?,?,?,?)",(name,password,email))
+                cur.execute("INSERT INTO User (name,password,email) VALUES (?,?,?)",(name,password,email))
             
                 con.commit()
                 msg = "Record successfully added"
