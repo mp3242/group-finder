@@ -1,8 +1,8 @@
 from flask import Flask, render_template, flash, redirect, session, url_for, request, g
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
-from .forms import LoginForm
-from .models import User
+#from .forms import LoginForm
+#from .models import User
 
 from flask.ext.openid import OpenID
 from config import basedir
@@ -19,7 +19,7 @@ import models
 ##for login
 lm=LoginManager()
 lm.init_app(app)
-oid=OpenID(app,os.path.join(basedir,'tmp'))
+oid=OpenID(app,join(basedir,'tmp'))
 @lm.user_loader
 def load_user(id):
     return User.query.get(int(id))
@@ -31,9 +31,28 @@ def login():
     form=LoginForm()
     if form.validate_on_submit():
         session['remember me']=form.remember_me.data
-        return oid.try_login(form.openid.data, ask_for=['name','email'])
+        return oid.try_login(form.openid.data, ask_for=['email','password'])
     return render_template('login.html',title='Sign In', form=form, providers=app.config['OPENID_PROVIDERS'])
 
+@oid.after_login
+def after_login(resp):
+    if resp.email is None or resp.email =="":
+        flash("Invalid login. Please try again.")
+        return redirect(url_for('login'))
+    user=User.query.filter_by(email=resp.email, password=resp.password).first()
+    if user is None:
+        email=resp.email
+        name=resp.email.split('@')[0]
+        
+        user=User(name=name,password=resp.password,email=email)
+        db.session.add(user)
+        db.session.commit()
+    remember_me=False
+    if 'remember_me' in session:
+        remember_me=session['remember me']
+        session.pop('remember_me', None)
+    login_user(user, remember=remember_me)
+    return redirect(request.args.get('next')or url_for('index'))
 #homepage
 
 #May need to change requirements.txt!
