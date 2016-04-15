@@ -59,14 +59,46 @@ def after_login(resp):
 def hello():
     return render_template("index.html")
 
+# @app.route("/search", methods=["POST", "GET"])
+# def search():
+#     if request.method == "POST":
+#         url = "https://www.googleapis.com/books/v1/volumes?q=" + request.form["user_search"]
+#         response_dict = requests.get(url).json()
+#         return render_template("result_get.html", api_data=response_dict)
+#     else: # request.method == "GET"
+#         return render_template("search.html")
+
+@app.route("/search")
+def search():
+    return render_template("search.html")
+
+@app.route("/searchClasses",methods = ['POST'])
+def searchClases():
+    if request.method == 'POST':
+        try:
+            user_search = request.form['user_search']
+
+            with sqlite3.connect("app.db") as con:
+                cur = con.cursor()
+                cur.execute('SELECT * FROM {tn} WHERE {cn}={s}'.\
+                    format(tn='right', cn='classname', s=user_search))
+                all_rows = c.fetchall()
+                print(all_rows)
+                
+                msg = "search successful"
+        except:
+            msg = "error in search operation"
+        finally:
+            return render_template("result_get.html", search_results=all_rows)
+            con.close()
+
 @app.route('/signup')
 def new_student():
     return render_template('signup.html')
 
-@app.route('/addrec',methods = ['POST', 'GET'])
+@app.route('/addrec',methods = ['POST'])
 def addrec():
     if request.method == 'POST':
-        msg = "hello world"
         try:
             name = request.form['name']
             password = request.form['password']
