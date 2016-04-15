@@ -2,9 +2,9 @@
 {% block title %} Search {% endblock %}
 {% block body %}
     <h1>Search</h1>
-    <form action="/search" method="POST">
+    <form action= "{{ url_for('searchClasses') }}" method="POST">
         <div class="small-10 columns">
-            <input type="text" placeholder="Search for a group" id="user_search" name="user_search" required/>
+            <input type="text" placeholder="Search for a group" id="user_search" name="user_search" required/> <!--input text-->
         </div>
         <div class="small-2 columns">
             <button class="postfix search-button" type="submit">Search</button>
