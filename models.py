@@ -14,6 +14,25 @@ class User(db.Model):
     email=db.Column(db.String(120),unique=True)
     courses=db.relationship("Course",secondary=association_table,back_populates="users")
     #created=db.Column(db.DateTime,default=datetime.datetime.utcnow)
+
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        try:
+            return unicode(self.id)
+        except NameError:
+            return str(self.id)
+
     def __init__(self,name,password,email):
         self.name=name
         self.password=password
@@ -23,6 +42,11 @@ class User(db.Model):
         return '<User %r>' % (self.name)
 #ex: how to make a post
 #db.session.add(User(name='Hidy',password='iwonttellyou',email='yh2635@columbia.edu'));db.session.commit()
+
+
+
+
+
 
 class Course(db.Model):
     __tablename__='right'
