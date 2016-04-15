@@ -51,6 +51,7 @@ class User(db.Model):
 class Course(db.Model):
     __tablename__='right'
     id=db.Column(db.Integer, primary_key=True)
+    callnumber=db.Column(db.Integer)
     classname=db.Column(db.String(64))
     users=db.relationship('User',secondary=association_table,back_populates="courses")
     
@@ -58,4 +59,4 @@ class Course(db.Model):
         self.classname=classname
 
     def __repr__(self):
-        return '<Call number: %r Class: %r>' % (self.id,self.classname)
+        return '<Call number: %r Class: %r>' % (self.callnumber,self.classname)
