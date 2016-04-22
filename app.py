@@ -80,8 +80,10 @@ def searchClasses():
         try:
             #capitalized
             user_search = request.form['user_search']
-            sections=models.Course.query.filter(models.Course.classname==user_search)
-            res=sections[0].find_classmates().all()
+            sections=models.Course.query.filter(models.Course.classname==user_search).all()
+            res=[]
+            for i in range(len(sections)):
+                res+=sections[i].find_classmates().all()
             #with sqlite3.connect("app.db") as con:
             #    cur = con.cursor()
                 #Capitalized Coursename
