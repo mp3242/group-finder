@@ -1,3 +1,5 @@
+from __future__ import print_function # In python 2.7
+import sys
 from flask import Flask, render_template, flash, redirect, session, url_for, request, g
 from flask.ext.sqlalchemy import SQLAlchemy
 from flask.ext.login import LoginManager, login_user, logout_user, current_user, login_required
@@ -73,7 +75,7 @@ def search():
     return render_template("search.html")
 
 @app.route("/searchClasses",methods = ['POST'])
-def searchClases():
+def searchClasses():
     if request.method == 'POST':
         try:
             user_search = request.form['user_search']
@@ -82,15 +84,19 @@ def searchClases():
                 cur = con.cursor()
                 cur.execute('SELECT * FROM {tn} WHERE {cn}={s}'.\
                     format(tn='right', cn='classname', s=user_search))
-                all_rows = c.fetchall()
-                print(all_rows)
+                all_rows = ["test","blah"]
+                print(all_rows, file=sys.stderr)
                 
                 msg = "search successful"
         except:
             msg = "error in search operation"
         finally:
-            return render_template("result_get.html", search_results=all_rows)
+            return render_template("result.html", search_results=all_rows)
             con.close()
+
+@app.route("/results")
+def results():
+    return render_template("results.html")
 
 @app.route('/signup')
 def new_student():
