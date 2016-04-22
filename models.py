@@ -49,6 +49,8 @@ class User(db.Model):
 
 
 class Course(db.Model):
+    def find_classmates(self):
+        return User.query.join(association_table, (association_table.c.left_id==User.id)).filter(association_table.c.right_id==self.id)
     __tablename__='right'
     id=db.Column(db.Integer, primary_key=True)
     callnumber=db.Column(db.Integer)

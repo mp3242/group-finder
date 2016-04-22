@@ -33,7 +33,7 @@ def login():
     #    return redirect(url_for('index'))
     #form=LoginForm()
     #if form.validate_on_submit():
-    #    session['remember me']=form.remember_me.data
+    #    session['remember me']=form.remember_me.data/
     #    return oid.try_login(form.openid.data, ask_for=['email','password'])
     return render_template('login.html')
 
@@ -78,21 +78,22 @@ def search():
 def searchClasses():
     if request.method == 'POST':
         try:
+            #capitalized
             user_search = request.form['user_search']
-
-            with sqlite3.connect("app.db") as con:
-                cur = con.cursor()
-                cur.execute('SELECT * FROM {tn} WHERE {cn}={s}'.\
-                    format(tn='right', cn='classname', s=user_search))
-                all_rows = ["test","blah"]
-                print(all_rows, file=sys.stderr)
-                
-                msg = "search successful"
+            sections=Course.query.filter(Course.classname==user_search)
+            res=c[0].find_classmates().all()
+            #with sqlite3.connect("app.db") as con:
+            #    cur = con.cursor()
+                #Capitalized Coursename
+            #    cur.execute('SELECT * FROM right WHERE classname=?',(user_search,))
+            #    all_rows = c.fetchall()
+            print(res, file=sys.stderr)
+            msg = "search successful"
         except:
             msg = "error in search operation"
         finally:
-            return render_template("result.html", search_results=all_rows)
-            con.close()
+            return render_template("result.html", search_results=res)
+        #    con.close()
 
 @app.route("/results")
 def results():
