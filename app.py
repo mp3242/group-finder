@@ -80,8 +80,8 @@ def searchClasses():
         try:
             #capitalized
             user_search = request.form['user_search']
-            sections=Course.query.filter(Course.classname==user_search)
-            res=c[0].find_classmates().all()
+            sections=models.Course.query.filter(models.Course.classname==user_search)
+            res=sections[0].find_classmates().all()
             #with sqlite3.connect("app.db") as con:
             #    cur = con.cursor()
                 #Capitalized Coursename
@@ -92,7 +92,7 @@ def searchClasses():
         except:
             msg = "error in search operation"
         finally:
-            return render_template("result.html", search_results=res)
+            return render_template("results.html", search_results=res)
         #    con.close()
 
 @app.route("/results")
