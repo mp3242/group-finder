@@ -26,29 +26,36 @@
 	<body class="landing">
 
 		<!-- Header -->
-			<header id="header">
-				<h1><a href="index.html">StudyGroup</a></h1>
-				<nav id="nav">
-					<ul>
-						<li><a href="elements.html">Classes</a></li>
-						<li><a href="./login.html" class="button special">Log In</a></li>
-					</ul>
-				</nav>
-			</header>
+		<header id="header">
+			<h1><a href="/">StudyGroup</a></h1>
+			<nav id="nav">
+				<ul>
+					<li><a href="elements.html">Classes</a></li>
+					<li><a href="./login.html" class="button special">Log In</a></li>
+				</ul>
+			</nav>
+		</header>
 
 		<!-- Banner -->
-			<section id="banner">
-				<section>
-							<h3 style = "color:white; font-size: 40px;">Search Classes</h3>
-							<form method="post" action="#">
-								<div class="row uniform 100%">
-									<div class="6u 12u$(2)">
-										<input type="text" name="name" id="name" value="" placeholder="Ex: Advanced Programming" />
-									</div>
-								</div>
-							</form>
-						</section>
+		<section id="banner">
+			<section>
+				<h3 style = "color:white; font-size: 40px;">Search Classes</h3>
+
+				<form action= "{{ url_for('searchClasses') }}" method="POST">
+					<div class="row uniform 100%">
+						<div class="6u 12u$(2)">
+				            <input type="text" placeholder="Search for a group" id="user_search" name="user_search" required/> <!--id="name"-->
+				        </div>
+				        <div class="small-2 columns">
+				            <button class="postfix search-button" type="submit">Search</button>
+				        </div>
+					</div>
+				</form>
+
 			</section>
+		</section>
+
+		{% block results %}{% endblock %}
 
 	</body>
 </html>
