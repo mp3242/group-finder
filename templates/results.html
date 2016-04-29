@@ -54,18 +54,11 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 	{% if search_results|length > 0 %}
 		<ul>
 	    {% for people in search_results %}
-	        <li>
+	        <li style = "color:white; font-size: 20px;">
 	            <h5>{{ people.name }}</h5> <!--NOT DONE-->
 	        </li>
 	    {% endfor %}
 	    </ul>
-	    <div class="12u inner 12u$(medium)">
-			<section class="box">
-				<span class="image left"><img src="images/tyler2.jpg" alt="" /></span>
-				<h2> Tyler (罗泰)</h2>
-					<p>罗泰是西肯塔基大学的大四学生。他同时攻读了国际关系，经济学和亚洲文化三个专业。在五年内，罗泰一直积极的参加中文项目。他在中国大陆参加三个项目，其中包括普林斯顿大学，美国国务院和美国国防部的项目。目前罗泰在天津完成一年的强化中文项目。由于他学中文的成功，他得到几个美国联邦政府的煊赫奖学金。罗泰有经验完成好几个有竞争力的国内和国际的奖学金。并且，他跟很多美国大学进行交流学习，如哈佛大学，普林斯顿大学，乔治城大学和亚利桑那州大学。由于他的辩论和新闻学的成就，罗泰受到国家赞誉，包括很多大奖排名，他是美国最优秀的辩论人之一。另外，罗泰在美国参议员办公室，国家政策分析中心（美国的研究所）工作，还有在美国企业研究所学习。目前，他正在给基本收入地球网（国际倡导组织）写报告。<br><br></p>
-			</section>
-		</div>
 	{% else %}
         <p>No people were found in this class.</p>
     {% endif %}
