@@ -58,7 +58,7 @@ def after_login(resp):
     return redirect(request.args.get('next')or url_for('index'))
 
 @app.route('/') #decorator= @app.route blablabla
-def hello():
+def index():
     return render_template("index.html")
 
 # @app.route("/search", methods=["POST", "GET"])
@@ -126,6 +126,10 @@ def addrec():
         finally:
             return render_template("result_add.html",msg = msg)
             con.close()
+
+@app.route('/user_profile') #decorator= @app.route blablabla
+def user_profile():
+    return render_template("user_profile.html")
 
 #error
 @app.errorhandler(404)

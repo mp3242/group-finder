@@ -27,11 +27,12 @@ Released for free under the Creative Commons Attribution 3.0 license (templated.
 
         <!-- Header -->
         <header id="header">
-        <h1><a href="/">StudyGroup</a></h1>
+        <h1><a href="{{ url_for('index') }}">StudyGroup</a></h1>
         <nav id="nav">
         <ul>
-            <li><a href="elements.html">Classes</a></li>
-            <li><a href="./login.html" class="button special">Log In</a></li>
+            <li><a href="{{ url_for('index') }}">Classes</a></li>
+            <li><a href="{{ url_for('index') }}" class="button special">Log In</a></li>
+            <!--change index to classes-->
         </ul>
         </nav>
         </header>
